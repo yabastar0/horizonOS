@@ -1,5 +1,18 @@
 local cDir = ""
 
+local needRestart = fs.open("horizon/res.sys","r")
+local dbrestart = false
+if needRestart ~= nil then
+    if needRestart.readAll() == "true" then
+        local unloop = fs.open("horizon/res.sys","w")
+        unloop.write("false")
+        unloop.close()
+        dbrestart = true
+    end
+end
+
+needRestart.close()
+
 _G.hsh = {}
 
 function hsh.clear()
@@ -27,6 +40,11 @@ local function updateAll()
     update("https://raw.githubusercontent.com/yabastar0/horizonOS/main/bios.lua","bios",true)
 end
 
+if dbrestart == true then
+    updateAll()
+    os.reboot()
+end
+
 if fs.exists("horizon/cd") == false then
     update("https://raw.githubusercontent.com/yabastar0/horizonOS/main/cd.lua","cd",false)
 end
@@ -44,13 +62,9 @@ function hsh.setDir(path)
     cDir = fs.combine(path, "")
 end
 
-hsh.clear()
-
-while true do
-    io.write(cDir..">")
-    local command = io.read()
+function hsh.run(command)
     words = {}
-    for word in command:gmatch("%w+") do table.insert(words, word) end
+    for word in command:gmatch("%S+") do table.insert(words, word) end
     local cmd1 = words[1]
     if fs.exists("horizon/"..fs.combine(cmd1)) == true then
         table.remove(words,1)
@@ -76,9 +90,20 @@ while true do
             inp = io.read()
         until inp == "y" or inp == "yes" or inp == "n" or inp == "no"
         if inp == "y" or inp == "yes" then
+            local needdb = fs.open("horizon/res.sys","w")
+            needdb.write("true")
+            needdb.close()
             os.reboot()
         end
     else
         print(textutils.serialise(words))
     end
+end
+
+hsh.clear()
+
+while true do
+    io.write(cDir..">")
+    local command = io.read()
+    hsh.run(command)
 end
