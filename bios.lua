@@ -23,12 +23,12 @@ local function update(link, name, bios)
 end
 
 local function updateAll()
-    update("https://raw.githubusercontent.com/yabastar0/horizonOS/main/cd.lua","cd")
-    update("https://raw.githubusercontent.com/yabastar0/horizonOS/main/bios.lua","bios")
+    update("https://raw.githubusercontent.com/yabastar0/horizonOS/main/cd.lua","cd",false)
+    update("https://raw.githubusercontent.com/yabastar0/horizonOS/main/bios.lua","bios",true)
 end
 
 if fs.exists("horizon/cd") == false then
-    update("https://raw.githubusercontent.com/yabastar0/horizonOS/main/cd.lua","cd")
+    update("https://raw.githubusercontent.com/yabastar0/horizonOS/main/cd.lua","cd",false)
 end
 
 function hsh.addpath(path)
