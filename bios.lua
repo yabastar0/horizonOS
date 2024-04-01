@@ -1,17 +1,16 @@
 local cDir = ""
 
-local needRestart = fs.open("horizon/res.sys","r")
+local needRestart = fs.open("horizon/sys/res.sys","r")
 local dbrestart = false
 if needRestart ~= nil then
     if needRestart.readAll() == "true" then
-        local unloop = fs.open("horizon/res.sys","w")
+        local unloop = fs.open("horizon/sys/res.sys","w")
         unloop.write("false")
         unloop.close()
         dbrestart = true
     end
+    needRestart.close()
 end
-
-needRestart.close()
 
 _G.hsh = {}
 
@@ -90,7 +89,7 @@ function hsh.run(command)
             inp = io.read()
         until inp == "y" or inp == "yes" or inp == "n" or inp == "no"
         if inp == "y" or inp == "yes" then
-            local needdb = fs.open("horizon/res.sys","w")
+            local needdb = fs.open("horizon/sys/res.sys","w")
             needdb.write("true")
             needdb.close()
             os.reboot()
