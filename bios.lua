@@ -7,12 +7,17 @@ function hsh.clear()
     term.setCursorPos(1, 1)
 end
 
-local function update(link, name)
+local function update(link, name, bios)
     hsh.clear()
     print("Downloading system files ... ["..name.."]")
     local rawData = http.get(link)
     local data = rawData.readAll()
-    local file = fs.open("horizon/"..name,"w")
+    local file = ""
+    if bios == false then
+        file = fs.open("horizon/"..name,"w")
+    else
+        file = fs.open(name..".lua","w")
+    end
     file.write(data)
     file.close()
 end
