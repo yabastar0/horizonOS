@@ -1,7 +1,7 @@
 local path = _G.argv[1]
 local newname = _G.argv[2]
 path = fs.combine(path)
-newname = fs.combine(newname)]
+newname = fs.combine(newname)
 
 local words = {}
 for word in string.gmatch(path, "[^/]+") do
