@@ -1,7 +1,8 @@
 local path = _G.argv[1]
 
-path = hsh.addpath(path)
-
+if path == nil then path = "" end
+path = fs.combine(hsh.getDir(),path)
+local path2 = path
 function traverseDirectory(path, indent)
     local items = fs.list(path)
     for _, item in ipairs(items) do
