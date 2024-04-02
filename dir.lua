@@ -38,7 +38,10 @@ end
 
 io.write("\n")
 
-count = 1
+local function writetype(w,x,count,text)
+    term.setCursorPos(w-(#text),x+count)
+    term.write(text)
+end
 
 for _,v in ipairs(files) do
     count = count + 1
@@ -48,14 +51,31 @@ for _,v in ipairs(files) do
     end
 
     if string.sub(v,-4) == ".lua" then
-        term.setCursorPos(w-(#"LUA SOURCE FILE"),x+count)
-        term.write("LUA SOURCE FILE")
+        writetype(w,x,count,"LUA SOURCE FILE")
     elseif string.sub(v,-4) == ".txt" then
-        term.setCursorPos(w-(#"TEXT FILE"),x+count)
-        term.write("TEXT FILE")
+        writetype(w,x,count,"TEXT FILE")
+    elseif string.sub(v,-4) == ".nft" then
+        writetype(w,x,count,"NITRO FNGR TXT IMAGE")
+    elseif string.sub(v,-4) == ".nfp" then
+        writetype(w,x,count,"NITRO FNGR PICTURE")
+    elseif string.sub(v,-6) == ".dfpwm" then
+        writetype(w,x,count,"AUDIO FILE")
+    elseif string.sub(v,-7) == ".mdfpwm" then
+        writetype(w,x,count,"MULTIPLE AUDIO FILE")
+    elseif string.sub(v,-4) == ".bat" then
+        writetype(w,x,count,"BATCH FILE")
+    elseif string.sub(v,-4) == ".hsh" then
+        writetype(w,x,count,"H SHELL SCRIPT")
+    elseif string.sub(v,-4) == ".com" then
+        writetype(w,x,count,"COMMAND FILE")
+    elseif string.sub(v,-4) == ".exe" then
+        writetype(w,x,count,"YABEX EXECUTABLE")
+    elseif string.sub(v,-4) == ".sys" then
+        writetype(w,x,count,"SYSTEM FILE")
+    elseif string.sub(v,-4) == ".cfg" then
+        writetype(w,x,count,"CONFIG FILE")
     else
-        term.setCursorPos(w-(#"FILE"),x+count)
-        term.write("FILE")
+        writetype(w,x,count,"FILE")
     end
 
     local tmpx, tmpy = term.getCursorPos()
